@@ -1,0 +1,27 @@
+{
+  "name": "dataStructure",
+  "version": "1.0.0",
+  "description": "A collection of JS implementation of common CS data structures",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "jest": "^23.6.0"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TheSiaWay/data-structure.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TheSiaWay/data-structure/issues"
+  },
+  "homepage": "https://github.com/TheSiaWay/data-structure#readme"
+}
