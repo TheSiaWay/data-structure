@@ -22,16 +22,16 @@ class SinglyLinkedList {
     const newNode = new Node(data);
     if (!this.head) {
       this.head = newNode;
-      this.listSize = 1;
-      return this.head;
+    } else {
+      let temp = this.head;
+      while (temp.next) {
+        temp = temp.next;
+      }
+      temp.next = newNode;
     }
-    let temp = this.head;
-    while (temp.next) {
-      temp = temp.next;
-    }
+
     this.listSize += 1;
-    temp.next = newNode;
-    return this.head;
+    return this;
   }
 
   /**
@@ -67,7 +67,7 @@ class SinglyLinkedList {
     }
 
     this.listSize += 1;
-    return this.head;
+    return this;
   }
 
   /**
@@ -86,19 +86,65 @@ class SinglyLinkedList {
 
   /**
    * Delete node given data
+   * if data doesn't exist or if list is empty, return null
    * @param {number} data
-   * @return {number}
+   * @return {LinkedList}
    */
   delete(data) {
+    if (this.isEmpty || !this.isContain(data)) {
+      this.head = null;
+      return this;
+    }
+    this.listSize -= 1;
+    if (this.head.data === data) {
+      // deleting at the head
+      this.head = this.head.next;
+    } else {
+      let temp = this.head;
+      while (temp.next) {
+        if (temp.next.data === data) {
+          temp.next = temp.next.next;
+          break;
+        }
+        temp = temp.next;
+      }
+    }
 
+    return this;
   }
 
   /**
    * Delete node given position -- head = 0 and tail = size - 1
+   * if given position <= 0, delete at head
+   * if given position >= size - 1, delete at tail
+   * else delete at that position and shift everything to the head
    * @param {number} position
    */
   deleteAt(position) {
+    if (this.isEmpty) {
+      return this;
+    } else if (position <= 0) {
+      this.head = this.head.next;
+    } else {
+      let deleted = false;
+      let temp = this.head;
+      let nodeCount = 0;
 
+      while (temp.next && temp.next.next) {
+        if (nodeCount === position - 1) {
+          temp.next = temp.next.next;
+          deleted = true;
+          break;
+        }
+        temp = temp.next;
+        nodeCount++;
+      }
+      if (!deleted) {
+        temp.next = null;
+      }
+    }
+    this.listSize -= 1;
+    return this;
   }
 
   reverse(list) {
@@ -111,15 +157,22 @@ class SinglyLinkedList {
    * @return {boolean}
    */
   isContain(data) {
-
+    let temp = this.head;
+    while (temp) {
+      if (temp.data === data) {
+        return true;
+      }
+      temp = temp.next;
+    }
+    return false;
   }
 
   /**
    * Check if list is empty
    * @return {boolean}
    */
-  isEmpty() {
-
+  get isEmpty() {
+    return this.listSize === 0;
   }
 
   /**
@@ -159,8 +212,6 @@ class SinglyLinkedList {
   nthElementFromEnd(position) {
 
   }
-
-
 }
 
 module.exports = SinglyLinkedList;
