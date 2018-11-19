@@ -13,20 +13,75 @@ class SinglyLinkedList {
     this.head = null;
   }
 
+  /**
+   * insert data at the tail as next item in the linked list
+   * @param {number} data
+   * @return {LinkedList}
+   */
   insert(data) {
-
+    const newNode = new Node(data);
+    if (!this.head) {
+      this.head = newNode;
+      this.listSize = 1;
+      return this.head;
+    }
+    let temp = this.head;
+    while (temp.next) {
+      temp = temp.next;
+    }
+    this.listSize += 1;
+    temp.next = newNode;
+    return this.head;
   }
 
-  insertAfter(data, node) {
+  /**
+   * insert at given position, head = 0, tail = size -1
+   * generalizing the function to:
+   * if given position <= 0, insert at head
+   * if given position >= size - 1, insert at tail
+   * else insert at that position and shift everything to the tail
+   * @param {number} data
+   * @param {number} position
+   * @return {LinkedList}
+   */
+  insertAt(data, position) {
+    let temp = this.head;
+    const newNode = new Node(data);
+    if (position <= 0) {
+      // inserting at head
+      this.head = newNode;
+      this.head.next = temp;
+    } else if (position >= this.listSize) {
+      // inserting at tail
+      return this.insert(data);
+    } else {
+      let tempCount = 0;
+      while (tempCount != position - 1) {
+        temp = temp.next;
+        tempCount++;
+      }
+      let pointer2 = temp.next;
+      temp.next = newNode;
+      temp = temp.next;
+      temp.next = pointer2;
+    }
 
+    this.listSize += 1;
+    return this.head;
   }
 
   /**
    * Helper function that print out what's in the list
-   * @return {void}
+   * @return {number[]}
    */
   print() {
-
+    let temp = this.head;
+    const result = [];
+    while (temp) {
+      result.push(temp.data);
+      temp = temp.next;
+    }
+    return result;
   }
 
   /**
@@ -68,11 +123,20 @@ class SinglyLinkedList {
   }
 
   /**
-   * give the size of the list
+   * getter for size of the list
    * @return {number}
    */
-  get size() {
+  get listSize() {
+    return this.size || 0;
+  }
 
+  /**
+   * setter for size of the list
+   * @param {number}
+   * @return {void}
+   */
+  set listSize(val) {
+    this.size = val;
   }
 
   // additional methods that are not usually included as part of normal linked list operation
